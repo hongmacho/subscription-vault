@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import { SubscriptionRepository } from '@/db/repositories/subscription-repository'
 
 export default function SettingsPage() {
   const [showClearConfirm, setShowClearConfirm] = useState(false)
@@ -9,8 +8,8 @@ export default function SettingsPage() {
 
   const handleExport = async () => {
     try {
-      const repo = new SubscriptionRepository()
-      const subscriptions = await repo.findAll()
+      const response = await fetch('/api/subscriptions')
+      const subscriptions = await response.json()
 
       const data = {
         subscriptions,
@@ -36,11 +35,11 @@ export default function SettingsPage() {
 
   const handleClearDatabase = async () => {
     try {
-      const repo = new SubscriptionRepository()
-      const subscriptions = await repo.findAll()
+      const response = await fetch('/api/subscriptions')
+      const subscriptions = await response.json()
 
       for (const sub of subscriptions) {
-        await repo.delete(sub.id)
+        await fetch(`/api/subscriptions/${sub.id}`, { method: 'DELETE' })
       }
 
       setMessage('모든 데이터가 삭제되었습니다')
@@ -57,14 +56,12 @@ export default function SettingsPage() {
     <div className="p-8 max-w-2xl mx-auto">
       <h1 className="text-4xl font-bold mb-8">설정</h1>
 
-      {/* Message */}
       {message && (
         <div className="mb-6 p-4 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-lg">
           {message}
         </div>
       )}
 
-      {/* General Settings */}
       <div className="bg-white dark:bg-slate-900 p-6 rounded-lg border border-gray-200 dark:border-slate-800 mb-6">
         <h2 className="text-lg font-bold mb-4">일반 설정</h2>
 
@@ -112,7 +109,6 @@ export default function SettingsPage() {
         </div>
       </div>
 
-      {/* Data Management */}
       <div className="bg-white dark:bg-slate-900 p-6 rounded-lg border border-gray-200 dark:border-slate-800 mb-6">
         <h2 className="text-lg font-bold mb-4">데이터 관리</h2>
 
@@ -181,7 +177,6 @@ export default function SettingsPage() {
         </div>
       </div>
 
-      {/* About */}
       <div className="bg-white dark:bg-slate-900 p-6 rounded-lg border border-gray-200 dark:border-slate-800">
         <h2 className="text-lg font-bold mb-4">정보</h2>
 

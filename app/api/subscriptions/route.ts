@@ -1,30 +1,33 @@
+export const dynamic = 'force-dynamic'
+
 import { NextRequest, NextResponse } from 'next/server'
 import { SubscriptionRepository } from '@/db/repositories/subscription-repository'
 
-export async function GET() {
+export async function GET(_: NextRequest) {
   try {
     const repo = new SubscriptionRepository()
     const subscriptions = await repo.findAll()
     return NextResponse.json(subscriptions)
   } catch (error) {
-    console.error('Failed to fetch subscriptions:', error)
+    console.error('GET /api/subscriptions error:', error)
     return NextResponse.json(
-      { error: 'Failed to fetch subscriptions' },
+      { error: 'Internal server error' },
       { status: 500 }
     )
   }
 }
 
-export async function POST(request: NextRequest) {
+export async function POST(req: NextRequest) {
   try {
-    const data = await request.json()
+    const data = await req.json()
     const repo = new SubscriptionRepository()
-    const subscription = await repo.create(data)
-    return NextResponse.json(subscription)
+
+    const created = await repo.create(data)
+    return NextResponse.json(created, { status: 201 })
   } catch (error) {
-    console.error('Failed to create subscription:', error)
+    console.error('POST /api/subscriptions error:', error)
     return NextResponse.json(
-      { error: 'Failed to create subscription' },
+      { error: 'Internal server error' },
       { status: 500 }
     )
   }
