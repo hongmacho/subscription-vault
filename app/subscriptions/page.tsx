@@ -25,9 +25,12 @@ async function deleteSubscription(id: number) {
 
 export default function SubscriptionsPage() {
   const [subscriptions, setSubscriptions] = useState<Subscription[]>([])
+  const [filteredSubscriptions, setFilteredSubscriptions] = useState<Subscription[]>([])
   const [loading, setLoading] = useState(true)
   const [showForm, setShowForm] = useState(false)
   const [editingId, setEditingId] = useState<number | null>(null)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [filterCategory, setFilterCategory] = useState('')
   const [formData, setFormData] = useState({
     name: '',
     category: SubscriptionCategory.OTHER,
@@ -52,6 +55,23 @@ export default function SubscriptionsPage() {
   useEffect(() => {
     loadSubscriptions()
   }, [])
+
+  // Apply filters whenever subscriptions or filter criteria change
+  useEffect(() => {
+    let filtered = subscriptions
+
+    if (searchQuery.trim()) {
+      filtered = filtered.filter(sub =>
+        sub.name.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    }
+
+    if (filterCategory) {
+      filtered = filtered.filter(sub => sub.category === filterCategory)
+    }
+
+    setFilteredSubscriptions(filtered)
+  }, [subscriptions, searchQuery, filterCategory])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -276,6 +296,50 @@ export default function SubscriptionsPage() {
         </div>
       )}
 
+      {/* Search & Filter */}
+      {subscriptions.length > 0 && (
+        <div className="bg-white dark:bg-slate-900 p-4 rounded-lg border border-gray-200 dark:border-slate-800 mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <label className="block text-sm font-medium mb-1">검색</label>
+              <input
+                type="text"
+                placeholder="서비스명으로 검색..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-slate-700 rounded-lg dark:bg-slate-800 text-sm"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-1">카테고리</label>
+              <select
+                value={filterCategory}
+                onChange={(e) => setFilterCategory(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-slate-700 rounded-lg dark:bg-slate-800 text-sm"
+              >
+                <option value="">모든 카테고리</option>
+                {Object.entries(CATEGORY_LABELS).map(([key, label]) => (
+                  <option key={key} value={key}>
+                    {label}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="flex items-end">
+              <button
+                onClick={() => {
+                  setSearchQuery('')
+                  setFilterCategory('')
+                }}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-slate-700 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-800 text-sm font-medium"
+              >
+                필터 초기화
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Subscriptions Table */}
       {subscriptions.length === 0 ? (
         <div className="text-center py-16">
@@ -286,6 +350,20 @@ export default function SubscriptionsPage() {
             className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700"
           >
             + 첫 구독 추가하기
+          </button>
+        </div>
+      ) : filteredSubscriptions.length === 0 ? (
+        <div className="text-center py-16">
+          <div className="text-6xl mb-4">🔍</div>
+          <p className="text-gray-500 mb-8">검색 결과가 없습니다</p>
+          <button
+            onClick={() => {
+              setSearchQuery('')
+              setFilterCategory('')
+            }}
+            className="text-blue-600 hover:text-blue-700 font-medium"
+          >
+            필터 초기화
           </button>
         </div>
       ) : (
@@ -315,7 +393,7 @@ export default function SubscriptionsPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 dark:divide-slate-800">
-                {subscriptions.map((sub) => (
+                {filteredSubscriptions.map((sub) => (
                   <tr
                     key={sub.id}
                     className="hover:bg-gray-50 dark:hover:bg-slate-800 transition"
