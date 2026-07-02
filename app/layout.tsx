@@ -38,6 +38,12 @@ export default function RootLayout({
                 📋 구독 목록
               </a>
               <a
+                href="/calendar"
+                className="block px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-100 dark:hover:bg-slate-800 transition"
+              >
+                📅 결제 캘린더
+              </a>
+              <a
                 href="/analytics"
                 className="block px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-100 dark:hover:bg-slate-800 transition"
               >
