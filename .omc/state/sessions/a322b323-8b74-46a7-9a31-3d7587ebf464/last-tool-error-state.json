@@ -1,0 +1,7 @@
+{
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"tree -L 2 -I node_modules\"}",
+  "error": "Exit code 127\n(eval):1: command not found: tree",
+  "timestamp": "2026-07-02T06:57:29.462Z",
+  "retry_count": 1
+}
