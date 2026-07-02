@@ -43,3 +43,8 @@ tsconfig.tsbuildinfo
 
 # omc (OMC session state files - should not be in public repos)
 .omc/
+
+# 데이터베이스
+*.db
+*.sqlite
+.env.local
