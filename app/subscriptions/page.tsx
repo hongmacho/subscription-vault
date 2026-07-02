@@ -10,7 +10,7 @@ async function fetchSubscriptions() {
   return response.json()
 }
 
-async function saveSubscription(data: any, id?: number) {
+async function saveSubscription(data: Record<string, unknown>, id?: number) {
   const response = await fetch(`/api/subscriptions${id ? `/${id}` : ''}`, {
     method: id ? 'PUT' : 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -396,9 +396,12 @@ export default function SubscriptionsPage() {
                 {filteredSubscriptions.map((sub) => (
                   <tr
                     key={sub.id}
-                    className="hover:bg-gray-50 dark:hover:bg-slate-800 transition"
+                    className="hover:bg-gray-50 dark:hover:bg-slate-800 transition cursor-pointer"
+                    onClick={() => {
+                      window.location.href = `/subscriptions/${sub.id}`
+                    }}
                   >
-                    <td className="px-6 py-4">{sub.name}</td>
+                    <td className="px-6 py-4 font-medium text-blue-600 hover:text-blue-700">{sub.name}</td>
                     <td className="px-6 py-4">{getCategoryLabel(sub.category)}</td>
                     <td className="px-6 py-4 font-medium">
                       {formatKRW(sub.monthlyPrice)}

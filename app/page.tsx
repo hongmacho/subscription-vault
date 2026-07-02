@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { SubscriptionRepository } from '@/db/repositories/subscription-repository'
 import { formatKRW, calculateMonthlyForecast } from '@/lib/utils'
 
@@ -43,12 +44,12 @@ export default async function Dashboard() {
           <div className="text-6xl mb-4">📭</div>
           <h2 className="text-2xl font-bold mb-2">아직 등록된 구독이 없습니다</h2>
           <p className="text-gray-500 mb-8">첫 구독을 추가하여 시작하세요</p>
-          <a
+          <Link
             href="/subscriptions"
             className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition"
           >
             + 구독 추가하기
-          </a>
+          </Link>
         </div>
       ) : (
         <>
@@ -138,18 +139,18 @@ export default async function Dashboard() {
             </div>
 
             <div className="mt-6 flex gap-4">
-              <a
+              <Link
                 href="/subscriptions"
                 className="text-blue-600 hover:text-blue-700 font-medium text-sm"
               >
                 전체 구독 보기 →
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/subscriptions"
                 className="inline-block bg-blue-600 text-white px-4 py-2 rounded-lg font-medium text-sm hover:bg-blue-700 transition ml-auto"
               >
                 + 구독 추가
-              </a>
+              </Link>
             </div>
           </div>
         </>

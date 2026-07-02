@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -25,36 +26,36 @@ export default function RootLayout({
             </div>
 
             <nav className="space-y-2 flex-1">
-              <a
+              <Link
                 href="/"
                 className="block px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-100 dark:hover:bg-slate-800 transition"
               >
                 📊 대시보드
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/subscriptions"
                 className="block px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-100 dark:hover:bg-slate-800 transition"
               >
                 📋 구독 목록
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/calendar"
                 className="block px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-100 dark:hover:bg-slate-800 transition"
               >
                 📅 결제 캘린더
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/analytics"
                 className="block px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-100 dark:hover:bg-slate-800 transition"
               >
                 📈 통계
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/settings"
                 className="block px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-100 dark:hover:bg-slate-800 transition"
               >
                 ⚙️ 설정
-              </a>
+              </Link>
             </nav>
 
             <div className="text-xs text-gray-500 border-t border-gray-200 dark:border-slate-800 pt-4">

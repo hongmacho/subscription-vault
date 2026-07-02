@@ -1,6 +1,7 @@
 import { SubscriptionRepository } from '@/db/repositories/subscription-repository'
 import { PriceHistoryRepository } from '@/db/repositories/price-history-repository'
 import { formatKRW, formatDate, getCategoryLabel, calculateCancellationDate } from '@/lib/utils'
+import Link from 'next/link'
 
 async function getSubscriptionData(id: number) {
   try {
@@ -32,9 +33,9 @@ export default async function SubscriptionDetailPage({
       <div className="p-8 text-center">
         <div className="text-6xl mb-4">❌</div>
         <h1 className="text-2xl font-bold mb-4">구독을 찾을 수 없습니다</h1>
-        <a href="/subscriptions" className="text-blue-600 hover:text-blue-700">
+        <Link href="/subscriptions" className="text-blue-600 hover:text-blue-700">
           구독 목록으로 돌아가기
-        </a>
+        </Link>
       </div>
     )
   }
@@ -55,12 +56,9 @@ export default async function SubscriptionDetailPage({
           </p>
         </div>
         <div className="flex gap-2">
-          <a
-            href={`/subscriptions?edit=${subscription.id}`}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-          >
+          <Link href={`/subscriptions?edit=${subscription.id}`} className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
             수정
-          </a>
+          </Link>
           <button
             onClick={() => {
               if (confirm('이 구독을 삭제하시겠습니까?')) {
@@ -187,20 +185,17 @@ export default async function SubscriptionDetailPage({
         )}
 
         <div className="mt-6 pt-6 border-t border-gray-200 dark:border-slate-800">
-          <a
-            href={`/subscriptions?addPrice=${subscription.id}`}
-            className="text-blue-600 hover:text-blue-700 font-medium"
-          >
+          <Link href={`/subscriptions?addPrice=${subscription.id}`} className="text-blue-600 hover:text-blue-700 font-medium">
             + 가격 변경 기록 추가
-          </a>
+          </Link>
         </div>
       </div>
 
       {/* Back Button */}
       <div className="mt-8">
-        <a href="/subscriptions" className="text-blue-600 hover:text-blue-700 font-medium">
+        <Link href="/subscriptions" className="text-blue-600 hover:text-blue-700 font-medium">
           ← 구독 목록으로 돌아가기
-        </a>
+        </Link>
       </div>
     </div>
   )

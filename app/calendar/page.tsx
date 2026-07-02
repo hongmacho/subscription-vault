@@ -1,5 +1,6 @@
 import { SubscriptionRepository } from '@/db/repositories/subscription-repository'
 import { formatKRW } from '@/lib/utils'
+import Link from 'next/link'
 
 async function getCalendarData() {
   try {
@@ -117,12 +118,11 @@ export default async function CalendarPage() {
         <div className="text-center py-16">
           <div className="text-6xl mb-4">📅</div>
           <p className="text-gray-500 mb-8">등록된 구독이 없습니다</p>
-          <a
-            href="/subscriptions"
+          <Link href="/subscriptions"
             className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700"
           >
             구독 추가하기
-          </a>
+          </Link>
         </div>
       ) : (
         <>
